@@ -1,0 +1,17 @@
+{
+  "name": "steam-bot",
+  "author": "Ricardo Sohn",
+  "version": "0.0.1",
+  "description": "This is a generic steam bot, for trading purposes",
+  "license": "ISC",
+  "main": "index.js",
+  "keywords": [
+    "steam",
+    "bot"
+  ],
+  "dependencies": {
+    "steam-user": "^3.15.0",
+    "steam-totp": "^1.4.0",
+    "winston": "^2.2.0"
+  }
+}
