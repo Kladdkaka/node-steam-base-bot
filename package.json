@@ -1,8 +1,8 @@
 {
-  "name": "steam-bot",
+  "name": "steam-rdsbot",
   "author": "Ricardo Sohn",
   "version": "0.0.1",
-  "description": "This is a generic steam bot, for trading purposes",
+  "description": "This is a generic steam bot",
   "license": "ISC",
   "main": "index.js",
   "keywords": [
