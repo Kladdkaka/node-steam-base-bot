@@ -1,8 +1,18 @@
 {
   "name": "steam-rdsbot",
-  "author": "Ricardo Sohn",
   "version": "0.0.1",
   "description": "This is a generic steam bot",
+  "author": {
+    "name": "Kyle Smith",
+    "email": "smith.kyle1734@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ricardosohn/SteamRDSBot"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "license": "ISC",
   "main": "index.js",
   "keywords": [
