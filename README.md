@@ -1,9 +1,12 @@
 # SteamRDSBot
 A NodeJS module using ES6 that provides a SteamBot base class, allowing full customization & overriding.
+
 This is on early development stage (and I'm also new to NodeJS), so there will be probably bugs.
 
+I plan to add more handlers, for trades, offers and all of that, based on McKay steam modules. Unfortunately, this may take about two weeks to happen, because right now I dont have steam accounts with the Steam Guard active for more than 15 days.
+
 # Installation
-First you will need to install node.js if you haven't already. This will only work with Node.js >= 4.0.0.
+First you will need to install node.js if you haven't already. This will only work with Node.js >= 6.0.0 (Only tested with this version).
 
 Once you have node and npm installed, type this command in shell, cmd, powershell, etc:
 ```
