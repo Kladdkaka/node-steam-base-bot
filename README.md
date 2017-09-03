@@ -3,8 +3,6 @@ A NodeJS module using ES6 that provides a SteamBot base class, allowing full cus
 
 This is on early development stage (and I'm also new to NodeJS), so there will be probably bugs.
 
-I plan to add more handlers, for trades, offers and all of that, based on McKay steam modules. Unfortunately, this may take about two weeks to happen, because right now I dont have steam accounts with the Steam Guard active for more than 15 days.
-
 # Installation
 First you will need to install node.js if you haven't already. This will only work with Node.js >= 6.0.0 (Only tested with this version).
 
@@ -51,8 +49,12 @@ You can add your own, and edit the built in ones right in your config file.
 The event handlers are:
 ```
 _onLoggedOn(response); //SteamUser.on('loggedOn')
-_onFriendMessage(steamID, message); //SteamUser.on('friendMessage');
-_onFriendRelationship(steamID, relationship) //SteamUser.on('friendRelationship');
+_onFriendMessage(steamID, message); //SteamUser.on('friendMessage')
+_onFriendRelationship(steamID, relationship) //SteamUser.on('friendRelationship')
+_onWebSession(sessionID, cookies); //SteamUser.on('webSession')
+_onNewOffer(offer); //SteamTradeOfferManager.on('newOffer')
+_onReceivedOfferChanged(offer, oldState); //SteamTradeOfferManager.on('receivedOfferChanged')
+_onPollData(pollData); //SteamTradeOfferManager.on('pollData')
 ```
 
 The default methods are:
