@@ -1,4 +1,11 @@
 # SteamRDSBot
+
+[![npm version](https://badge.fury.io/js/steam-rdsbot.svg)](https://badge.fury.io/js/steam-rdsbot)
+[![npm](https://img.shields.io/npm/dw/localeval.svg)](https://www.npmjs.com/package/steam-rdsbot)
+[![dependencies Status](https://david-dm.org/ricardosohn/node-steam-rdsbot/status.svg)](https://david-dm.org/ricardosohn/node-steam-rdsbot)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/ricardosohn/node-steam-rdsbot/blob/master/LICENSE)
+[![Gratipay](https://img.shields.io/gratipay/project/shields.svg)](https://gratipay.com/~ricardosohn/)
+
 A NodeJS module using ES6 that provides a SteamBot base class, allowing full customization & overriding.
 
 This is on early development stage (and I'm also new to NodeJS), so there will be probably bugs.
@@ -62,7 +69,7 @@ The default methods are:
 logOn(); //SteamUser.logOn(details)
 ```
 # Help
-**This repository is beginner friendly*. If you have a problem, no matter how simple it is, PLEASE open an issue, and either I or other users will try to answer it as quickly as possible. 
+**This repository is beginner friendly**. If you have a problem, no matter how simple it is, PLEASE open an issue, and either I or other users will try to answer it as quickly as possible. 
 If you need help with something that is really complex or would take a long time, you can [add me on steam](http://steamcommunity.com/id/ricardosohn/)
 
 # Contributors
