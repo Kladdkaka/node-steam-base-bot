@@ -1,7 +1,7 @@
 # SteamRDSBot
 
 [![npm version](https://img.shields.io/npm/v/steam-rdsbot.svg)](https://www.npmjs.com/package/steam-rdsbot)
-[![npm](https://img.shields.io/npm/dw/steam-rdsbot.svg)](https://www.npmjs.com/package/steam-rdsbot)
+[![npm](https://img.shields.io/npm/dm/steam-rdsbot.svg)](https://www.npmjs.com/package/steam-rdsbot)
 [![dependencies](https://img.shields.io/david/ricardosohn/node-steam-rdsbot.svg)](https://www.npmjs.com/package/steam-rdsbot)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/ricardosohn/node-steam-rdsbot/blob/master/LICENSE)
 [![Gratipay](https://img.shields.io/gratipay/user/ricardosohn.svg)](https://gratipay.com/~ricardosohn/)
