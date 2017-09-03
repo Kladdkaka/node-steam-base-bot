@@ -4,8 +4,7 @@
 [![npm](https://img.shields.io/npm/dw/localeval.svg)](https://www.npmjs.com/package/steam-rdsbot)
 [![dependencies Status](https://david-dm.org/ricardosohn/node-steam-rdsbot/status.svg)](https://david-dm.org/ricardosohn/node-steam-rdsbot)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/ricardosohn/node-steam-rdsbot/blob/master/LICENSE)
-[![Gratipay](https://img.shields.io/gratipay/project/shields.svg)](https://gratipay.com/~ricardosohn/)
-
+[![Gratipay](https://img.shields.io/gratipay/user/ricardosohn.svg)](https://gratipay.com/~ricardosohn/)
 A NodeJS module using ES6 that provides a SteamBot base class, allowing full customization & overriding.
 
 This is on early development stage (and I'm also new to NodeJS), so there will be probably bugs.
