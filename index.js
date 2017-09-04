@@ -55,15 +55,18 @@ class SteamBot {
 	    });
 
 		//SteamUser Events
-		this.client.on("loggedOn", (response) => { this._onLoggedOn(response) });
-		this.client.on("webSession", (sessionID, cookies) => { this._onWebSession(sessionID, cookies) } );
-		this.client.on("friendMessage", (steamID, message) => { this._onFriendMessage(steamID, message) });
-		this.client.on("friendRelationship", (steamID, relationship) => { this._onFriendRelationship(steamID, relationship) });
+		this.client.on("loggedOn", this._onLoggedOn.bind(this));
+		this.client.on("webSession", this._onWebSession.bind(this));
+		this.client.on("friendMessage", this._onFriendMessage.bind(this));
+		this.client.on("friendRelationship", this._onFriendRelationship.bind(this));
 
 		//TradeOfferManager Events
-		this.manager.on('newOffer', (offer) => { this._onNewOffer(offer); });
-		this.manager.on('receivedOfferChanged', (offer, oldState) => { this._onReceivedOfferChanged(offer, oldState); });
-		this.manager.on('pollData', (pollData) => { this._onPollData(pollData); });
+		this.manager.on('newOffer', this._onNewOffer.bind(this));
+		this.manager.on('receivedOfferChanged', this._onReceivedOfferChanged.bind(this));
+		this.manager.on('pollData', this._onPollData.bind(this));
+
+		//Steam Community Events
+		this.community.on('sessionExpired', this._onSessionExpired.bind(this));
 	}
 	
 	logOn(){
@@ -103,7 +106,7 @@ class SteamBot {
 		});
 
 		this.community.setCookies(cookies);
-		this.community.startConfirmationChecker(this.confirmationInterval, this.identitySecret); // Checks and accepts confirmations every 30 seconds
+		this.community.startConfirmationChecker(this.confirmationInterval, this.identitySecret); // Checks and accepts confirmations using the defined interval
 	}
 
 	_onFriendMessage(steamID, message){
@@ -132,6 +135,10 @@ class SteamBot {
 
 	_onPollData(pollData){
 		this.logger.warn("TradeOfferManager: onPollData event fired, but I won't do anything, because I am not configured yet!");
+	}
+
+	_onSessionExpired(error){
+		this.logger.warn("SteamCommunity: " + error);
 	}
 }
 
