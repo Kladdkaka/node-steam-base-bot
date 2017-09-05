@@ -128,13 +128,13 @@ class SteamBot {
 	* Emitted when you're successfully logged into Steam.
 	* @param {String} domain - If an email code is needed, the domain name of the address where the email was sent. null if an app code is needed.
 	* @param {function} callback - Should be called when the code is available. It takes a code as a parameter
-	* @param {boolean} lastCodeWrong - If you're using 2FA and the last code you provided was wrong, false otherwise
+	* @param {Boolean} lastCodeWrong - If you're using 2FA and the last code you provided was wrong, false otherwise
 	*/
 	_onSteamGuard(domain, callback, lastCodeWrong){}
 
 	/**
 	* Emitted when an error occurs during logon. Also emitted if we're disconnected and autoRelogin is either disabled, or it's a fatal disconnect.
-	* @param {Object} error - An Error object
+	* @param {Object} [error] - An Error object
 	*/
 	_onError(error){}
 
@@ -155,7 +155,7 @@ class SteamBot {
 	/**
 	* Emitted when a steamcommunity.com web session is successfully negotiated. This will automatically be emitted on logon and in response to webLogOn calls.
 	* @param {Integer} sessionID - The value of the sessionid cookie
-	* @param {Object[]} cookies - An array of cookies, as name=value strings
+	* @param {Object} [cookies] - An array of cookies, as name=value strings
 	*/
 	_onWebSession(sessionID, cookies){}
 
@@ -213,7 +213,7 @@ class SteamBot {
 	/**
 	* Emitted on logon and when email info changes. The emailInfo property will be updated after this event is emitted.
 	* @param {String} address - Your account's email address
-	* @param {Boolean} validated - A boolean value for whether or not your email address is validated
+	* @param {Boolean} validated - A Boolean value for whether or not your email address is validated
 	*/
 	_onEmailInfo(address, validated){}
 
@@ -244,13 +244,13 @@ class SteamBot {
 	/**
 	* Emitted on logon and when licenses change. The licenses property will be updated after this event is emitted.
 	This isn't emitted for anonymous accounts. However, all anonymous user accounts have a license for package 17906 automatically.
-	* @param {Object[]} licenses - An array of licenses
+	* @param {Object} [licenses] - An array of licenses
 	*/
 	_onLicenses(licenses){}
 
 	/**
 	* Emitted on logon and when you receive/accept/decline a gift or guest pass. The gifts property will be updated after this event is emitted.
-	* @param {Object[]} gifts - An array of gift objects
+	* @param {Object} [gifts] - An array of gift objects
 	*/
 	_onGifts(gifts){}
 
@@ -264,8 +264,8 @@ class SteamBot {
 	* Emitted when we receive a new changelist from Steam. The picsCache property is updated after this is emitted, so you can get the previous
 	changenumber via picsCache.changenumber. This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
 	* @param {Integer} changenumber - The changenumber of the changelist we just received
-	* @param {Object[]} apps - An array of AppIDs which changed since our last received changelist
-	* @param {Object[]} packages - An array of PackageIDs which changed since our last received changelist
+	* @param {Object} [apps] - An array of AppIDs which changed since our last received changelist
+	* @param {Object} [packages] - An array of PackageIDs which changed since our last received changelist
 	*/
 	_onChangelist(changenumber, apps, packages){}
 
@@ -274,7 +274,7 @@ class SteamBot {
 	* Emitted when an app that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous
 	app data via picsCache.apps[appid]. This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
 	* @param {Integer} appid - The AppID of the app which just changed
-	* @param {Object} data - An object identical to that received from getProductInfo
+	* @param {Object} [data] - An object identical to that received from getProductInfo
 	*/
 	_onAppUpdate(appid, data){}
 
@@ -283,7 +283,7 @@ class SteamBot {
 	* Emitted when a package that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous
 	package data via picsCache.packages[packageid].This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
 	* @param {Integer} packageid - The PackageID of the package which just changed
-	* @param {Object} data - An object identical to that received from getProductInfo
+	* @param {Object} [data] - An object identical to that received from getProductInfo
 	*/
 	_onPackageUpdate(packageid, data){}
 
@@ -292,29 +292,29 @@ class SteamBot {
 	* Emitted on logon, and when new marketing messages are published. Marketing messages are the popups that appear after you exit a game if you have
 	"Notify me about additions or changes to my games, new releases, and upcoming releases" enabled in the Steam client.
 	* @param {Date} timestamp - A Date object containing the time when this batch of messages was published
-	* @param {Object[]} messages - An array of objects containing the following properties: id, url and flags
+	* @param {Object} [messages] - An array of objects containing the following properties: id, url and flags
 	*/
 	_onMarketingMessages(timestamp, messages){}
 
 	/**
 	* Emitted when someone sends us a trade request.
-	* @param {Object} steamID - The SteamID of the user who sent the request, as a SteamID object
-	* @param {requestCallback} respond - A function which you should call to either accept (true) or decline(false) the request
+	* @param {Object} [steamID] - The SteamID of the user who sent the request, as a SteamID object
+	* @param {Function} respond - A function which you should call to either accept (true) or decline(false) the request
 	*/
 	_onTradeRequest(steamID, respond){}
 
 	/**
 	* Emitted when someone responds to our trade request. Also emitted with response EEconTradeResponse.Cancel when someone cancels their outstanding trade request to us.
-	* @param {Object} steamID - The SteamID of the other user, as a SteamID object
+	* @param {Object} [steamID] - The SteamID of the other user, as a SteamID object
 	* @param {Enum} response - A value from the EEconTradeResponse enum
-	* @param {Object[]} restrictions - An object containing the following properties (of which any or all could be undefined): steamguardRequiredDays, newDeviceCooldownDays,
+	* @param {Object} [restrictions] - An object containing the following properties (of which any or all could be undefined): steamguardRequiredDays, newDeviceCooldownDays,
 	defaultPasswordResetProbationDays, passwordResetProbationDays, defaultEmailChangeProbationDays, emailChangeProbationDays
 	*/
 	_onTradeResponse(steamID, response, restrictions){}
 
 	/**
 	* Emitted when a new trade session has started (either as a result of someone accepting a Steam trade request, an in-game (TF2) trade request, or something else).
-	* @param {Object} steamID - The SteamID of your trade partner, as a SteamID object
+	* @param {Object} [steamID] - The SteamID of your trade partner, as a SteamID object
 	*/
 	_onTradeStarted(steamID){}
 
@@ -331,22 +331,22 @@ class SteamBot {
 
 	/**
 	* Emitted when Steam sends us persona information about a user. The users property isn't yet updated when this is emitted, so you can compare to see what changed.
-	* @param {Object} steamID - A SteamID object for the user whose data we just received
-	* @param {Object} user - An object containing the user's persona data
+	* @param {Object} [steamID] - A SteamID object for the user whose data we just received
+	* @param {Object} [user] - An object containing the user's persona data
 	*/
 	_onUser(steamID, user){}
 
 
 	/**
 	* Emitted when Steam sends us information about a Steam group. The groups property isn't yet updated when this is emitted, so you can compare to see what changed.
-	* @param {Object} steamID - A SteamID object for the group whose data we just received
-	* @param {Object} group - An object containing the group's data
+	* @param {Object} [steamID] - A SteamID object for the group whose data we just received
+	* @param {Object} [group] - An object containing the group's data
 	*/
 	_onGroup(steamID, group){}
 
 	/**
 	* Emitted when a group schedules a new event, or a new event starts.
-	* @param {Object} steamID - A SteamID object for the group who just posted/started an event
+	* @param {Object} [steamID] - A SteamID object for the group who just posted/started an event
 	* @param {String} headline - The name of the event
 	* @param {Date} date - A Date object for the event's start time
 	* @param {String} gid - The event's GID (link to the event page at https://steamcommunity.com/gid//event/)
@@ -356,7 +356,7 @@ class SteamBot {
 
 	/**
 	*
-	* @param {Object} steamID - A SteamID object for the group who just posted an announcement
+	* @param {Object} [steamID] - A SteamID object for the group who just posted an announcement
 	* @param {String} headline - The name of the announcement
 	* @param {String} gid - The announcement's GID (link to the announcement page at https://steamcommunity.com/gid//announcements/detail/)
 	*/
@@ -366,7 +366,7 @@ class SteamBot {
 	* Emitted when our relationship with a particular user changes. For example, EFriendRelationship.RequestRecipient means that we got
 	invited as a friend, EFriendRelationship.None means that we got unfriended.The myFriends property isn't yet updated when this is emitted,
 	so you can compare to the old value to see what changed.
-	* @param {Object} steamID - A SteamID object for the user whose relationship with us just changed
+	* @param {Object} [steamID] - A SteamID object for the user whose relationship with us just changed
 	* @param {Integer} relationship - A value from EFriendRelationship
 	*/
 	_onFriendRelationship(steamID, relationship){}
@@ -374,7 +374,7 @@ class SteamBot {
 	/**
 	* Emitted when our relationship with a particular Steam group changes.The myGroups property isn't yet updated when this is emitted,
 	so you can compare to the old value to see what changed.
-	* @param {Object} steamID - A SteamID object for the group whose relationship with us just changed
+	* @param {Object} [steamID] - A SteamID object for the group whose relationship with us just changed
 	* @param {Integer} relationship - A value from EClanRelationship
 	*/
 	_onGroupRelationship(steamID, relationship){}
@@ -393,7 +393,7 @@ class SteamBot {
 	/**
 	* Emitted when our friends group list is downloaded from Steam, which should be shortly after logon (automatically). In the official client,
 	friend groups are called tags. The myFriendGroups property will be updated after this event is emitted, so you can compare groups with the property to see what changed.
-	* @param {Object[]} groups - An object whose structure is identical to the myFriendGroups property
+	* @param {Object} [groups] - An object whose structure is identical to the myFriendGroups property
 	*/
 	_onFriendsGroupList(groups){}
 
@@ -404,34 +404,34 @@ class SteamBot {
 
 	/**
 	*
-	* @param {Object} senderID - The message sender, as a SteamID object
+	* @param {Object} [senderID] - The message sender, as a SteamID object
 	* @param {String} message - The message text
-	* @param {Object} room - The room to which the message was sent. This is the user's SteamID if it was a friend message
+	* @param {Object} [room] - The room to which the message was sent. This is the user's SteamID if it was a friend message
 	*/
 	_onFriendOrChatMessage(senderID, message, room){}
 
 	/**
 	* Emitted when we receive a direct friend message (that is, not through a chat room), as long as we're online.
-	* @param {Object} senderID - The message sender, as a SteamID object
+	* @param {Object} [senderID] - The message sender, as a SteamID object
 	* @param {String} message - The message text
 	*/
 	_onFriendMessage(steamID, message){}
 
 	/**
 	* Emitted when Steam notifies us that one of our friends is typing a message to us, as long as we're online.
-	* @param {Object} senderID - The SteamID of the friend who's typing
+	* @param {Object} [senderID] - The SteamID of the friend who's typing
 	*/
 	_onFriendTyping(senderID){}
 
 	/**
 	* Emitted when Steam notifies us that one of our friends with whom we've been chatting has closed our chat window, as long as we're online.
-	* @param {Object} senderID - The SteamID of the friend who closed our chat window
+	* @param {Object} [senderID] - The SteamID of the friend who closed our chat window
 	*/
 	_onFriendLeftConversation(senderID){}
 
 	/**
 	* Emitted when Steam echos us a message that we sent to a friend on another login.
-	* @param {Object} recipientID - The SteamID of the user who rececived this message
+	* @param {Object} [recipientID] - The SteamID of the user who rececived this message
 	* @param {String} message - The message text
 	*/
 	_onFriendMessageEcho(recipientID, message){
@@ -440,21 +440,21 @@ class SteamBot {
 
 	/**
 	* Emitted when Steam echos us a notification that we're typing to a friend on another login.
-	* @param {Object} recipientID - The SteamID of the user who we're typing to
+	* @param {Object} [recipientID] - The SteamID of the user who we're typing to
 	*/
 	_onFriendTypingEcho(recipientID){}
 
 	/**
 	* Emitted when we receive a chat message from a chat room, as long as we're online. This is a special ID event. Any of the following are acceptable:
-	* @param {Object} room - The SteamID of the chat room
-	* @param {Object} chatter - The SteamID of the message sender
+	* @param {Object} [room] - The SteamID of the chat room
+	* @param {Object} [chatter] - The SteamID of the message sender
 	* @param {String} message - The message text
 	*/
 	_onChatMessage(room, chatter, message){}
 
 	/**
 	* With the exception of the steamID argument, this is identical to the callback of getChatHistory.
-	* @param {Object} steamID - The SteamID of the user with whom we got chat history
+	* @param {Object} [steamID] - The SteamID of the user with whom we got chat history
 	* @param {Integer} success - An EResult value
 	* @param {String[]} messages - An array of message objects
 	*/
@@ -467,108 +467,108 @@ class SteamBot {
 	-chatInvite#inviterID
 	-chatInvite#chatID
 	-chatInvite#inviterID#chatID
-	* @param {Object} inviterID - The SteamID of the user who invited us
-	* @param {Object} chatID - The SteamID of the chat that we were invited to
+	* @param {Object} [inviterID] - The SteamID of the user who invited us
+	* @param {Object} [chatID] - The SteamID of the chat that we were invited to
 	* @param {String} chatName - The name of the chat we were invited to. Empty if it's a multi-user chat and not a group chat.
 	*/
 	_onChatInvite(inviterID, chatID, chatName){}
 
 	/**
 	* With the exception of the friendID argument, this event is identical to the callback of createChatRoom.
-	* @param {Object} friendID - The SteamID of the friend with whom we were creating this room
+	* @param {Object} [friendID]  - The SteamID of the friend with whom we were creating this room
 	* @param {Integer} eresult - An EResult value
-	* @param {Object} chatID - The SteamID of the newly-created chat, if successful
+	* @param {Object} [chatID] - The SteamID of the newly-created chat, if successful
 	*/
 	_onChatCreated(friendID, eresult, chatID){}
 
 	/**
 	* With the exception of the chatID argument, this event is identical to the callback of joinChat.
-	* @param {Object} chatID - The SteamID of the chat room that we either entered or failed to enter
+	* @param {Object} [chatID] - The SteamID of the chat room that we either entered or failed to enter
 	* @param {Integer} response - A value from EChatRoomEnterResponse
 	*/
 	_onChatEnter(chatID, response){}
 
 	/**
 	* Emitted when we leave a chat room for any reason (we left, kicked, banned, etc).
-	* @param {Object} chatID - The SteamID of the chat room that we left
+	* @param {Object} [chatID] - The SteamID of the chat room that we left
 	*/
 	_onChatLeft(chatID){}
 
 	/**
 	* Emitted when a user joins a chat room we're in.
-	* @param {Object} chatID - The SteamID of the chat room that the user joined
-	* @param {Object} userID - The SteamID of the user who joined
+	* @param {Object} [chatID] - The SteamID of the chat room that the user joined
+	* @param {Object} [userID] - The SteamID of the user who joined
 	*/
 	_onChatUserJoined(chatID, userID){}
 
 	/**
 	* Emitted when a user leaves a chat room we're in.
-	* @param {Object} chatID - The SteamID of the chat room that the user left
-	* @param {Object} userID - The SteamID of the user who left
+	* @param {Object} [chatID] - The SteamID of the chat room that the user left
+	* @param {Object} [userID] - The SteamID of the user who left
 	*/
 	_onChatUserLeft(chatID, userID){}
 
 	/**
 	* Emitted when a user in a chat room we're in disconnects from Steam.
-	* @param {Object} chatID - The SteamID of the chat room that the user disconnected from
-	* @param {Object} userID - The SteamID of the user who disconnected
+	* @param {Object} [chatID] - The SteamID of the chat room that the user disconnected from
+	* @param {Object} [userID] - The SteamID of the user who disconnected
 	*/
 	_onChatUserDisconnected(chatID, userID){}
 
 	/**
 	* Emitted when a user is kicked from a chat room we're in.
-	* @param {Object} chatID - The SteamID of the chat room that the user was kicked from
-	* @param {Object} userID - The SteamID of the user who was kicked
-	* @param {Object} actor - The SteamID of the user who did the kicking
+	* @param {Object} [chatID] - The SteamID of the chat room that the user was kicked from
+	* @param {Object} [userID] - The SteamID of the user who was kicked
+	* @param {Object} [actor] - The SteamID of the user who did the kicking
 	*/
 	_onChatUserKicked(chatID, userID, actor){}
 
 	/**
 	* Emitted when a user is banned from a chat room we're in.
-	* @param {Object} chatID - The SteamID of the chat room that the user was banned from
-	* @param {Object} userID - The SteamID of the user who was banned
-	* @param {Object} actor - The SteamID of the user who did the banning
+	* @param {Object} [chatID] - The SteamID of the chat room that the user was banned from
+	* @param {Object} [userID] - The SteamID of the user who was banned
+	* @param {Object} [actor] - The SteamID of the user who did the banning
 	*/
 	_onChatUserBanned(chatID, userID, actor){}
 
 	/**
 	* Emitted when a user in a chat room we're in starts speaking over voice chat.
-	* @param {Object} chatID - The SteamID of the chat room that the user is speaking in
-	* @param {Object} userID - The SteamID of the user who is speaking
+	* @param {Object} [chatID] - The SteamID of the chat room that the user is speaking in
+	* @param {Object} [userID] - The SteamID of the user who is speaking
 	*/
 	_onChatUserSpeaking(chatID, userID){}
 
 	/**
 	* Emitted when a user in a chat room we're in stops speaking over voice chat.
-	* @param {Object} chatID - The SteamID of the chat room that the user is done speaking in
-	* @param {Object} userID - The SteamID of the user who is done speaking
+	* @param {Object} [chatID] - The SteamID of the chat room that the user is done speaking in
+	* @param {Object} [userID] - The SteamID of the user who is done speaking
 	*/
 	_onChatUserDoneSpeaking(chatID, userID){}
 
 	/**
 	* Emitted when a chat room we're in is unlocked so that anyone can join.
-	* @param {Object} chatID - The SteamID of the chat room that was unlocked
-	* @param {Object} actor - The SteamID of the user who unlocked it
+	* @param {Object} [chatID] - The SteamID of the chat room that was unlocked
+	* @param {Object} [actor] - The SteamID of the user who unlocked it
 	*/
 	_onChatSetPublic(chatID, actor){}
 
 	/**
 	* Emitted when a chat room we're in is locked so that only group members can join without an invite.
-	* @param {Object} chatID - The SteamID of the chat room that was locked
-	* @param {Object} actor - The SteamID of the user who locked it
+	* @param {Object} [chatID] - The SteamID of the chat room that was locked
+	* @param {Object} [actor] - The SteamID of the user who locked it
 	*/
 	_onChatSetPrivate(chatID, actor){}
 
 	/**
 	*
-	* @param {Object} chatID - The SteamID of the chat room that was set officers-only
-	* @param {Object} actor - The SteamID of the user who set it officers-only
+	* @param {Object} [chatID] - The SteamID of the chat room that was set officers-only
+	* @param {Object} [actor] - The SteamID of the user who set it officers-only
 	*/
 	_onChatSetOfficersOnly(chatID, actor){}
 
 	/**
 	*
-	* @param {Object} inviterID - The SteamID of the user who invited us to a Steam lobby
+	* @param {Object} [inviterID] - The SteamID of the user who invited us to a Steam lobby
 	* @param {Object} lobbyID - The SteamID of the lobby we were invited to
 	*/
 	_onLobbyInvite(inviterID, lobbyID){}
