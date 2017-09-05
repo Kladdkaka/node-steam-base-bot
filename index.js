@@ -165,7 +165,6 @@ class SteamBot {
 	*/
 	_onLoginKey(key){}
 
-
 	/**
 	* Emitted when Steam sends a notification of new items. You can reset the count to 0 by loading your inventory page (https://steamcommunity.com/my/inventory) while logged in.
 	* @param {Integer} count - How many new items you have (can be 0)
@@ -269,7 +268,6 @@ class SteamBot {
 	*/
 	_onChangelist(changenumber, apps, packages){}
 
-
 	/**
 	* Emitted when an app that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous
 	app data via picsCache.apps[appid]. This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
@@ -278,7 +276,6 @@ class SteamBot {
 	*/
 	_onAppUpdate(appid, data){}
 
-
 	/**
 	* Emitted when a package that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous
 	package data via picsCache.packages[packageid].This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
@@ -286,7 +283,6 @@ class SteamBot {
 	* @param {Object} [data] - An object identical to that received from getProductInfo
 	*/
 	_onPackageUpdate(packageid, data){}
-
 
 	/**
 	* Emitted on logon, and when new marketing messages are published. Marketing messages are the popups that appear after you exit a game if you have
@@ -336,7 +332,6 @@ class SteamBot {
 	*/
 	_onUser(steamID, user){}
 
-
 	/**
 	* Emitted when Steam sends us information about a Steam group. The groups property isn't yet updated when this is emitted, so you can compare to see what changed.
 	* @param {Object} [steamID] - A SteamID object for the group whose data we just received
@@ -379,7 +374,6 @@ class SteamBot {
 	*/
 	_onGroupRelationship(steamID, relationship){}
 
-
 	/**
 	* Emitted when our friends list is downloaded from Steam after logon.
 	*/
@@ -403,7 +397,7 @@ class SteamBot {
 	_onNicknameList(){}
 
 	/**
-	*
+	* Emitted when we receive either a friend message or a chat room message, as long as we're online.
 	* @param {Object} [senderID] - The message sender, as a SteamID object
 	* @param {String} message - The message text
 	* @param {Object} [room] - The room to which the message was sent. This is the user's SteamID if it was a friend message
@@ -434,9 +428,7 @@ class SteamBot {
 	* @param {Object} [recipientID] - The SteamID of the user who rececived this message
 	* @param {String} message - The message text
 	*/
-	_onFriendMessageEcho(recipientID, message){
-
-	}
+	_onFriendMessageEcho(recipientID, message){}
 
 	/**
 	* Emitted when Steam echos us a notification that we're typing to a friend on another login.
@@ -460,13 +452,8 @@ class SteamBot {
 	*/
 	_onChatHistory(steamID, success, messages){}
 
-
 	/**
-	* Emitted when we're invited to join a chat room. This is a special ID event. Any of the following are acceptable:
-	-chatInvite
-	-chatInvite#inviterID
-	-chatInvite#chatID
-	-chatInvite#inviterID#chatID
+	* Emitted when we're invited to join a chat room. This is a special ID event. Any of the following are acceptable: chatInvite, chatInvite#inviterID, chatInvite#chatID, chatInvite#inviterID#chatID
 	* @param {Object} [inviterID] - The SteamID of the user who invited us
 	* @param {Object} [chatID] - The SteamID of the chat that we were invited to
 	* @param {String} chatName - The name of the chat we were invited to. Empty if it's a multi-user chat and not a group chat.
@@ -560,14 +547,15 @@ class SteamBot {
 	_onChatSetPrivate(chatID, actor){}
 
 	/**
-	*
+	* Emitted when a chat room we're in is set so that only group officers can chat.
 	* @param {Object} [chatID] - The SteamID of the chat room that was set officers-only
 	* @param {Object} [actor] - The SteamID of the user who set it officers-only
 	*/
 	_onChatSetOfficersOnly(chatID, actor){}
 
 	/**
-	*
+	* Emitted when we're invited to a Steam lobby. The inviter should be currently playing the game
+	associated with this lobby, so you can get the AppID of the associated game from their user persona data.
 	* @param {Object} [inviterID] - The SteamID of the user who invited us to a Steam lobby
 	* @param {Object} lobbyID - The SteamID of the lobby we were invited to
 	*/
