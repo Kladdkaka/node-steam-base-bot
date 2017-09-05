@@ -10,24 +10,14 @@ const fs = require('fs');
 const crypto = require('crypto');
 const readline = require('readline');
 
+
 class SteamBot {
 	constructor(username, password, options){
 		this.username = username;
 		this.password = password;
-	    this.options = options || {};
 
-	    this.service = this.options.service || undefined;
-	    this.apikey = this.options.apikey || undefined;
+		this.options = Object.assign({}, options);
 	    this.logfile = this.options.logfile || this.username + '.log';
-	    this.guardCode = this.options.guardCode || undefined;
-	    this.twoFactorCode = this.options.twoFactorCode || undefined;
-	    this.sharedSecret = this.options.sharedSecret || undefined;
-	    this.identitySecret = this.options.identitySecret || undefined;
-	    this.confirmationInterval = this.options.confirmationInterval || 30000;
-	    this.gamePlayed = this.options.gamePlayed || undefined;
-
-	    this.groupID = this.options.groupID || undefined;
-	    this.customGameName = this.options.customGameName || undefined
 
 	    this.client = new SteamUser();
 	    this.community = new SteamCommunity();
@@ -191,19 +181,7 @@ class SteamBot {
 	* @param {Integer} sessionID - The value of the sessionid cookie
 	* @param {Object[]} cookies - An array of cookies, as name=value strings
 	*/
-	_onWebSession(sessionID, cookies){
-		this.manager.setCookies(cookies, (error) => {
-			if (error) {
-				this.logger.error("WebSession error :" + error);
-				process.exit(1); // Fatal error since we couldn't get our API key
-				return;
-			}
-			this.logger.info("Successfully received Steam API key");
-		});
-
-		this.community.setCookies(cookies);
-		this.community.startConfirmationChecker(this.confirmationInterval, this.identitySecret); // Checks and accepts confirmations using the defined interval
-	}
+	_onWebSession(sessionID, cookies){}
 
 	/*
 	* If you enabled rememberPassword in logOn, this will be emitted when Steam sends us a new login key. This key can be passed to logOn as loginKey in lieu of a password on subsequent logins.
@@ -224,9 +202,7 @@ class SteamBot {
 	* @param {Integer} myItems - How many of the total comments are on your content (workshop items, screenshots, your profile, etc.)
 	* @param {Integer} discussions - How many of the total comments are posts in subscribed discussion threads
 	*/
-	_onNewComments(count, myItems, discussions){
-		this.logger.debug("SteamUser NewComments! Count="+count+", myItems="+myItems+", discussions="+discussions);
-	}
+	_onNewComments(count, myItems, discussions){}
 
 	/*
 	* Emitted when Steam sends a notification of new trade offers.
@@ -272,9 +248,7 @@ class SteamBot {
 	* @param {Boolean} locked - true if your account is locked, false if not (accounts can also be locked by Support)
 	* @param {Boolean} canInviteFriends - true if your account can invite friends, false if not
 	*/
-	_onAccountLimitations(limited, communityBanned, locked, canInviteFriends){
-		this.logger.debug("SteamUser AccountLimitations: limited="+limited+", communityBanned="+communityBanned+", locked="+locked+", canInviteFriends="+canInviteFriends);
-	}
+	_onAccountLimitations(limited, communityBanned, locked, canInviteFriends){}
 
 	/*
 	* Emitted on logon and probably when you get banned/unbanned. The vac property will be updated after this event is emitted.
@@ -419,16 +393,7 @@ class SteamBot {
 	* @param {Object} steamID - A SteamID object for the user whose relationship with us just changed
 	* @param {Integer} relationship - A value from EFriendRelationship
 	*/
-	_onFriendRelationship(steamID, relationship){
-		if (relationship === SteamUser.EFriendRelationship.RequestRecipient) {
-        	this.client.addFriend(steamID);
-	    } else if (relationship === SteamUser.EFriendRelationship.Friend) {
-	        if (this.groupID) {
-	            this.client.inviteToGroup(steamID, this.groupID);
-	        }
-	        this.client.chatMessage(steamID, 'Hi, thanks for adding me! My owner haven\'t finished me yet! You\'ll have to wait a little bite more for my services');
-	    }
-	}
+	_onFriendRelationship(steamID, relationship){}
 
 	/*
 	* Emitted when our relationship with a particular Steam group changes.The myGroups property isn't yet updated when this is emitted, 
@@ -474,10 +439,7 @@ class SteamBot {
 	* @param {Object} senderID - The message sender, as a SteamID object
 	* @param {String} message - The message text
 	*/
-	_onFriendMessage(steamID, message){
-	    this.logger.info('Message from ' + steamID + ': ' + message);
-	    this.client.chatMessage(steamID, 'Hi, thanks for messaging me! My owner haven\'t finished me yet! You\'ll have to wait a little bite more for my services');
-	}
+	_onFriendMessage(steamID, message){}
 
 	/*
 	* Emitted when Steam notifies us that one of our friends is typing a message to us, as long as we're online.
@@ -642,33 +604,25 @@ class SteamBot {
 	* 
 	* @param {}
 	*/
-	_onNewOffer(offer){
-		this.logger.warn("TradeOfferManager: New offer #" + offer.id + " from " + offer.partner.getSteam3RenderedID() + ", but I won't do anything, because I am not configured yet!");
-	}
+	_onNewOffer(offer){}
 
 	/*
 	* 
 	* @param {}
 	*/
-	_onReceivedOfferChanged(offer, oldState){
-		this.logger.warn("TradeOfferManager: Offer #" + offer.id + " changed: " + TradeOfferManager.ETradeOfferState[oldState] + " => " + TradeOfferManager.ETradeOfferState[offer.oldState]+ ", but I won't do anything, because I am not configured yet!");
-	}
+	_onReceivedOfferChanged(offer, oldState){}
 
 	/*
 	* 
 	* @param {}
 	*/
-	_onPollData(pollData){
-		this.logger.warn("TradeOfferManager: onPollData event fired, but I won't do anything, because I am not configured yet!");
-	}
+	_onPollData(pollData){}
 
 	/*
 	* 
 	* @param {}
 	*/
-	_onSessionExpired(error){
-		this.logger.warn("SteamCommunity: " + error);
-	}
+	_onSessionExpired(error){}
 }
 
 SteamBot.SteamUser = SteamUser;
