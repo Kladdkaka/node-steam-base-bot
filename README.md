@@ -55,13 +55,73 @@ You can add your own, and edit the built in ones right in your config file.
 
 The event handlers are:
 ```
-_onLoggedOn(response); //SteamUser.on('loggedOn')
-_onFriendMessage(steamID, message); //SteamUser.on('friendMessage')
-_onFriendRelationship(steamID, relationship) //SteamUser.on('friendRelationship')
-_onWebSession(sessionID, cookies); //SteamUser.on('webSession')
-_onNewOffer(offer); //SteamTradeOfferManager.on('newOffer')
-_onReceivedOfferChanged(offer, oldState); //SteamTradeOfferManager.on('receivedOfferChanged')
-_onPollData(pollData); //SteamTradeOfferManager.on('pollData')
+client.on("loggedOn", this._onLoggedOn.bind(this));
+client.on("steamGuard", this._onSteamGuard.bind(this));
+client.on("error", this._onError.bind(this));
+client.on("disconnected", this._onDisconnected.bind(this));
+client.on("sentry", this._onSentry.bind(this));
+client.on("webSession", this._onWebSession.bind(this));
+client.on("loginKey", this._onLoginKey.bind(this));
+client.on("newItems", this._onNewItems.bind(this));
+client.on("newComments", this._onNewComments.bind(this));
+client.on("tradeOffers", this._onTradeOffers.bind(this));
+client.on("offlineMessages", this._onOfflineMessages.bind(this));
+client.on("vanityURL", this._onVanityUrl.bind(this));
+client.on("accountInfo", this._onAccountInfo.bind(this));
+client.on("emailInfo", this._onEmailInfo.bind(this));
+client.on("accountLimitations", this._onAccountLimitations.bind(this));
+client.on("vacBans", this._onVacBans.bind(this));
+client.on("wallet", this._onWallet.bind(this));
+client.on("licenses", this._onLicenses.bind(this));
+client.on("gifts", this._onGifts.bind(this));
+client.on("appOwnershipCached", this._onAppOwnershipCached.bind(this));
+client.on("changelist", this._onChangelist.bind(this));
+client.on("appUpdate", this._onAppUpdate.bind(this));
+client.on("packageUpdate", this._onPackageUpdate.bind(this));
+client.on("marketingMessages", this._onMarketingMessages.bind(this));
+client.on("tradeRequest", this._onTradeRequest.bind(this));
+client.on("tradeResponse", this._onTradeResponse.bind(this));
+client.on("tradeStarted", this._onTradeStarted.bind(this));
+client.on("playingState", this._onPlayingState.bind(this));
+client.on("user", this._onUser.bind(this));
+client.on("group", this._onGroup.bind(this));
+client.on("groupEvent", this._onGroupEvent.bind(this));
+client.on("groupAnnouncement", this._onGroupAnnouncement.bind(this));
+client.on("friendRelationship", this._onFriendRelationship.bind(this));
+client.on("groupRelationship", this._onGroupRelationship.bind(this));
+client.on("friendsList", this._onFriendsList.bind(this));
+client.on("groupList", this._onGroupsList.bind(this));
+client.on("friendsGroupList", this._onFriendsGroupList.bind(this));
+client.on("nicknameList", this._onNicknameList.bind(this));
+client.on("friendOrChatMessage", this._onFriendOrChatMessage.bind(this));
+client.on("friendMessage", this._onFriendMessage.bind(this));
+client.on("friendTyping", this._onFriendTyping.bind(this));
+client.on("friendLeftConversation", this._onFriendLeftConversation.bind(this));
+client.on("friendMessageEcho", this._onFriendMessageEcho.bind(this));
+client.on("friendTypingEcho", this._onFriendTypingEcho.bind(this));
+client.on("chatMessage", this._onChatMessage.bind(this));
+client.on("chatHistory", this._onChatHistory.bind(this));
+client.on("chatInvite", this._onChatInvite.bind(this));
+client.on("chatCreated", this._onChatCreated.bind(this));
+client.on("chatEnter", this._onChatEnter.bind(this));
+client.on("chatLeft", this._onChatLeft.bind(this));
+client.on("chatUserJoined", this._onChatUserJoined.bind(this));
+client.on("chatUserLeft", this._onChatUserLeft.bind(this));
+client.on("chatUserDisconnected", this._onChatUserDisconnected.bind(this));
+client.on("chatUserKicked", this._onChatUserKicked.bind(this));
+client.on("chatUserBanned", this._onChatUserBanned.bind(this));
+client.on("chatUserSpeaking", this._onChatUserSpeaking.bind(this));
+client.on("chatUserDoneSpeaking", this._onChatUserDoneSpeaking.bind(this));
+client.on("chatSetPublic", this._onChatSetPublic.bind(this));
+client.on("chatSetPrivate", this._onChatSetPrivate.bind(this));
+client.on("chatSetOfficersOnly", this._onChatSetOfficersOnly.bind(this));
+client.on("lobbyInvite", this._onLobbyInvite.bind(this));
+
+manager.on('newOffer', this._onNewOffer.bind(this));
+manager.on('receivedOfferChanged', this._onReceivedOfferChanged.bind(this));
+manager.on('pollData', this._onPollData.bind(this));
+
+community.on('sessionExpired', this._onSessionExpired.bind(this));
 ```
 
 The default methods are:
