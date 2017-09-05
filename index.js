@@ -25,7 +25,7 @@ class SteamBot {
 	    	"steam": this.client,
 	    	"language": "en"
 	    });
-	    
+
 		this.logger = new (Winston.Logger)({
 	        transports: [
 	            new (Winston.transports.Console)({
@@ -115,19 +115,6 @@ class SteamBot {
 		//Steam Community Events
 		this.community.on('sessionExpired', this._onSessionExpired.bind(this));
 	}
-	
-	logOn(){
-		this.logger.info('Logging in...');
-		try{	
-			this.client.logOn({
-			    accountName: this.username,
-			    password: this.password,
-			    twoFactorCode: SteamTotp.getAuthCode(this.options.sharedSecret)
-			});	
-		} catch(error){
-			this.logger.error('Error logging in:' + error);
-		}
-	}
 
 	//Steam User Handlers
 
@@ -135,23 +122,12 @@ class SteamBot {
 	* Emitted when you're successfully logged into Steam.
 	* @param {Object} response - An object containing various details about your account (TODO: update every property based on CMsgClientLogonResponse)
 	*/
-	_onLoggedOn(response){
-		if (response.eresult === SteamUser.EResult.OK) {
-			this.logger.info('Logged into Steam!');
-			this.client.setPersona(SteamUser.EPersonaState = 1);
-			if(this.gamePlayed){
-				this.client.gamesPlayed([(this.customGameName ? this.customGameName : "SteamRDSBot"), this.gamePlayed]);
-			}
-		} else {
-		    this.logger.warn('EResult for logon: ' + response.eresult);
-		}
-	}
-
+	_onLoggedOn(response){}
 
 	/**
 	* Emitted when you're successfully logged into Steam.
 	* @param {String} domain - If an email code is needed, the domain name of the address where the email was sent. null if an app code is needed.
-	* @param {requestCallback} callback - Should be called when the code is available. It takes a code as a parameter
+	* @param {function} callback - Should be called when the code is available. It takes a code as a parameter
 	* @param {boolean} lastCodeWrong - If you're using 2FA and the last code you provided was wrong, false otherwise
 	*/
 	_onSteamGuard(domain, callback, lastCodeWrong){}
@@ -163,7 +139,7 @@ class SteamBot {
 	_onError(error){}
 
 	/**
-	* Emitted when we're disconnected from Steam for a non-fatal reason and autoRelogin is enabled. SteamUser will continually retry connection and 
+	* Emitted when we're disconnected from Steam for a non-fatal reason and autoRelogin is enabled. SteamUser will continually retry connection and
 	will either emit loggedOn when logged back on, or error if a fatal logon error is experienced.Also emitted in response to a logOff() call.
 	* @param {Integer} eresult - A value from the SteamUser.EResult enum
 	* @param {String} msg - A string describing the reason for the disconnect, if available (might be undefined)
@@ -185,7 +161,7 @@ class SteamBot {
 
 	/**
 	* If you enabled rememberPassword in logOn, this will be emitted when Steam sends us a new login key. This key can be passed to logOn as loginKey in lieu of a password on subsequent logins.
-	* @param {Integer?} key - Your login key
+	* @param {Integer} key - Your login key
 	*/
 	_onLoginKey(key){}
 
@@ -198,7 +174,7 @@ class SteamBot {
 
 	/**
 	* Emitted when Steam sends a notification of new comments.
-	* @param {Integer} count- How many total new comments you have (can be 0)
+	* @param {Integer} count - How many total new comments you have (can be 0)
 	* @param {Integer} myItems - How many of the total comments are on your content (workshop items, screenshots, your profile, etc.)
 	* @param {Integer} discussions - How many of the total comments are posts in subscribed discussion threads
 	*/
@@ -228,7 +204,7 @@ class SteamBot {
 	* @param {String} name - Your account's Steam (persona) name
 	* @param {String} country - The character code from which you're logging in (via GeoIP), e.g. "US"
 	* @param {Integer} authedMachines - How many machines are authorized to login to your account with Steam Guard
-	* @param {?} flags - Your account's bitwise flags
+	* @param {Object} flags - Your account's bitwise flags
 	* @param {String} facebookID - If your account is linked with Facebook, this is your Facebook account ID
 	* @param {String} facebookName - If your account is linked with Facebook, this is your (real) name on Facebook
 	*/
@@ -253,20 +229,20 @@ class SteamBot {
 	/**
 	* Emitted on logon and probably when you get banned/unbanned. The vac property will be updated after this event is emitted.
 	* @param {Integer} numBans - How many bans your account has
-	* @param {Integer[]?} appids - The AppIDs from which you're banned. Since each ban affects a range of AppIDs, some of the AppIDs in this array may not exist.
+	* @param {Integer[]} appids - The AppIDs from which you're banned. Since each ban affects a range of AppIDs, some of the AppIDs in this array may not exist.
 	*/
 	_onVacBans(numBans, appids){}
 
 	/**
-	* 
+	*
 	* @param {Boolean} hasWallet - true if your account has a Steam Wallet, false if not
 	* @param {Enum} currency - The currency ID of your account's wallet (the enum of currencies is available as SteamUser.ECurrencyCode)
-	* @param {?} balance - Your account's current wallet balance
+	* @param {Object} balance - Your account's current wallet balance
 	*/
 	_onWallet(hasWallet, currency, balance){}
 
 	/**
-	* Emitted on logon and when licenses change. The licenses property will be updated after this event is emitted. 
+	* Emitted on logon and when licenses change. The licenses property will be updated after this event is emitted.
 	This isn't emitted for anonymous accounts. However, all anonymous user accounts have a license for package 17906 automatically.
 	* @param {Object[]} licenses - An array of licenses
 	*/
@@ -285,17 +261,17 @@ class SteamBot {
 	_onAppOwnershipCached(){}
 
 	/**
-	* Emitted when we receive a new changelist from Steam. The picsCache property is updated after this is emitted, so you can get the previous 
+	* Emitted when we receive a new changelist from Steam. The picsCache property is updated after this is emitted, so you can get the previous
 	changenumber via picsCache.changenumber. This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
 	* @param {Integer} changenumber - The changenumber of the changelist we just received
 	* @param {Object[]} apps - An array of AppIDs which changed since our last received changelist
-	*@parma {Object[]} packages - An array of PackageIDs which changed since our last received changelist
+	* @param {Object[]} packages - An array of PackageIDs which changed since our last received changelist
 	*/
 	_onChangelist(changenumber, apps, packages){}
 
 
 	/**
-	* Emitted when an app that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous 
+	* Emitted when an app that was already in our cache updates. The picsCache property is updated after this is emitted, so you can get the previous
 	app data via picsCache.apps[appid]. This is only emitted if enablePicsCache is true and changelistUpdateInterval is nonzero.
 	* @param {Integer} appid - The AppID of the app which just changed
 	* @param {Object} data - An object identical to that received from getProductInfo
@@ -313,9 +289,9 @@ class SteamBot {
 
 
 	/**
-	* Emitted on logon, and when new marketing messages are published. Marketing messages are the popups that appear after you exit a game if you have 
+	* Emitted on logon, and when new marketing messages are published. Marketing messages are the popups that appear after you exit a game if you have
 	"Notify me about additions or changes to my games, new releases, and upcoming releases" enabled in the Steam client.
-	* @param {Date} A Date object containing the time when this batch of messages was published
+	* @param {Date} timestamp - A Date object containing the time when this batch of messages was published
 	* @param {Object[]} messages - An array of objects containing the following properties: id, url and flags
 	*/
 	_onMarketingMessages(timestamp, messages){}
@@ -323,7 +299,7 @@ class SteamBot {
 	/**
 	* Emitted when someone sends us a trade request.
 	* @param {Object} steamID - The SteamID of the user who sent the request, as a SteamID object
-	* @param {requestCallback} respond - A function which you should call to either accept (true) or decline(false) the request 
+	* @param {requestCallback} respond - A function which you should call to either accept (true) or decline(false) the request
 	*/
 	_onTradeRequest(steamID, respond){}
 
@@ -331,7 +307,7 @@ class SteamBot {
 	* Emitted when someone responds to our trade request. Also emitted with response EEconTradeResponse.Cancel when someone cancels their outstanding trade request to us.
 	* @param {Object} steamID - The SteamID of the other user, as a SteamID object
 	* @param {Enum} response - A value from the EEconTradeResponse enum
-	* @param {Object[]} restrictions - An object containing the following properties (of which any or all could be undefined): steamguardRequiredDays, newDeviceCooldownDays, 
+	* @param {Object[]} restrictions - An object containing the following properties (of which any or all could be undefined): steamguardRequiredDays, newDeviceCooldownDays,
 	defaultPasswordResetProbationDays, passwordResetProbationDays, defaultEmailChangeProbationDays, emailChangeProbationDays
 	*/
 	_onTradeResponse(steamID, response, restrictions){}
@@ -379,7 +355,7 @@ class SteamBot {
 	_onGroupEvent(steamID, headline, date, gid, gameID){}
 
 	/**
-	* 
+	*
 	* @param {Object} steamID - A SteamID object for the group who just posted an announcement
 	* @param {String} headline - The name of the announcement
 	* @param {String} gid - The announcement's GID (link to the announcement page at https://steamcommunity.com/gid//announcements/detail/)
@@ -387,8 +363,8 @@ class SteamBot {
 	_onGroupAnnouncement(steamID, headline, gid){}
 
 	/**
-	* Emitted when our relationship with a particular user changes. For example, EFriendRelationship.RequestRecipient means that we got 
-	invited as a friend, EFriendRelationship.None means that we got unfriended.The myFriends property isn't yet updated when this is emitted, 
+	* Emitted when our relationship with a particular user changes. For example, EFriendRelationship.RequestRecipient means that we got
+	invited as a friend, EFriendRelationship.None means that we got unfriended.The myFriends property isn't yet updated when this is emitted,
 	so you can compare to the old value to see what changed.
 	* @param {Object} steamID - A SteamID object for the user whose relationship with us just changed
 	* @param {Integer} relationship - A value from EFriendRelationship
@@ -396,9 +372,9 @@ class SteamBot {
 	_onFriendRelationship(steamID, relationship){}
 
 	/**
-	* Emitted when our relationship with a particular Steam group changes.The myGroups property isn't yet updated when this is emitted, 
+	* Emitted when our relationship with a particular Steam group changes.The myGroups property isn't yet updated when this is emitted,
 	so you can compare to the old value to see what changed.
-	* @param {Object} steamID - A SteamID object for the group whose relationship with us just changed 
+	* @param {Object} steamID - A SteamID object for the group whose relationship with us just changed
 	* @param {Integer} relationship - A value from EClanRelationship
 	*/
 	_onGroupRelationship(steamID, relationship){}
@@ -415,7 +391,7 @@ class SteamBot {
 	_onGroupsList(){}
 
 	/**
-	* Emitted when our friends group list is downloaded from Steam, which should be shortly after logon (automatically). In the official client, 
+	* Emitted when our friends group list is downloaded from Steam, which should be shortly after logon (automatically). In the official client,
 	friend groups are called tags. The myFriendGroups property will be updated after this event is emitted, so you can compare groups with the property to see what changed.
 	* @param {Object[]} groups - An object whose structure is identical to the myFriendGroups property
 	*/
@@ -427,10 +403,10 @@ class SteamBot {
 	_onNicknameList(){}
 
 	/**
-	* 
+	*
 	* @param {Object} senderID - The message sender, as a SteamID object
 	* @param {String} message - The message text
-	* @param {Object?} room - The room to which the message was sent. This is the user's SteamID if it was a friend message
+	* @param {Object} room - The room to which the message was sent. This is the user's SteamID if it was a friend message
 	*/
 	_onFriendOrChatMessage(senderID, message, room){}
 
@@ -573,7 +549,7 @@ class SteamBot {
 	* Emitted when a chat room we're in is unlocked so that anyone can join.
 	* @param {Object} chatID - The SteamID of the chat room that was unlocked
 	* @param {Object} actor - The SteamID of the user who unlocked it
-	*/	
+	*/
 	_onChatSetPublic(chatID, actor){}
 
 	/**
@@ -584,14 +560,14 @@ class SteamBot {
 	_onChatSetPrivate(chatID, actor){}
 
 	/**
-	* 
+	*
 	* @param {Object} chatID - The SteamID of the chat room that was set officers-only
 	* @param {Object} actor - The SteamID of the user who set it officers-only
 	*/
 	_onChatSetOfficersOnly(chatID, actor){}
 
 	/**
-	* 
+	*
 	* @param {Object} inviterID - The SteamID of the user who invited us to a Steam lobby
 	* @param {Object} lobbyID - The SteamID of the lobby we were invited to
 	*/
@@ -601,25 +577,25 @@ class SteamBot {
 	//Steam TradeOffer Manager Handlers
 
 	/**
-	* 
+	*
 	* @param {}
 	*/
 	_onNewOffer(offer){}
 
 	/**
-	* 
+	*
 	* @param {}
 	*/
 	_onReceivedOfferChanged(offer, oldState){}
 
 	/**
-	* 
+	*
 	* @param {}
 	*/
 	_onPollData(pollData){}
 
 	/**
-	* 
+	*
 	* @param {}
 	*/
 	_onSessionExpired(error){}
